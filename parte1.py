@@ -1,37 +1,74 @@
 from proyecto import Proyecto
 import random
+from mergesort import mergeSort
 
-def parte1DivYConq(arreglo:list,inicio:int,fin:int)->(int,int,int):
-	if inicio >= fin:
-		
-		return arreglo[inicio].ganancia,arreglo[inicio].prestigio,inicio
-	mitad:int = (inicio + fin)//2
-	izq = parte1DivYConq(arreglo,inicio,mitad)
-	der = parte1DivYConq(arreglo,mitad+1,fin)
-	if izq[0]<der[0] and izq[1]< der[1]:
-		return der
+def f(a:tuple,b:tuple):
+	if a[0] >= b[0]:
+		return -1
 	else:
-		return izq
+		return 1
+
+
+def parte1DivYConq(arr:list)->list:
+    if len(arr)==1:
+        return arr
+    mid = len(arr)//2
+    L = arr[:mid]
+    R = arr[mid:]
+    izq = parte1DivYConq(L)
+    der = parte1DivYConq(R)
+    return _mergeDivYConq(izq,der)
+
+
+def _mergeDivYConq(izq:list,der:list)->list:
+	i:int = 0
+	j:int = 0
+	arreglo:list = []
+	while j<len(der):
+		if i == len(izq)-1 :
+			arreglo.append(izq[i])
+			i+=1
+			continue
+		if i != len(izq) :
+			if izq[i][1] > der[j][1]:
+				j += 1
+			else:
+				arreglo.append(izq[i])
+				i+=1
+				
+		else:
+			if izq[i-1][1] > der[j][1]:
+				j += 1
+			else:
+				arreglo.append(der[j])
+				j+=1
+	if i != len(izq) :
+		while i<len(izq):
+			arreglo.append(izq[i])
+			i+=1
+	return arreglo
+
+		
+
 
 def main():
 	posiblesGanancias = []
 	for i in range(100):
 		posiblesGanancias.append(i)
 	arregloResoluble = []
-	printearArreglo = "[ "
-	for j in range(15):
-		proyect = Proyecto(random.choice(posiblesGanancias),random.choice(posiblesGanancias))
-		printearArreglo += f"{str(proyect)} ,\n"
+	for j in range(6):
+		proyect = (random.choice(posiblesGanancias),random.choice(posiblesGanancias))
 		arregloResoluble.append(proyect)
+	arregloresoluble = mergeSort(arregloResoluble,f)
 	print("Arreglo a solucionar:")
 	print()
-	printearArreglo = printearArreglo[:len(printearArreglo)-2] + "]"
-	print(printearArreglo)
-	proyectoGanador = parte1DivYConq(arregloResoluble,0,len(arregloResoluble)-1)
+	print(arregloresoluble)
+	proyectosGanadorer = parte1DivYConq(arregloResoluble)
 	print()
-	print("Solucionado y proyecto ganador:")
+	print("Solucion con los proyectos ganadores:")
 	print()
-	print(arregloResoluble[proyectoGanador[2]])
+	for p in proyectosGanadorer:
+		print(p)
 	print()
 
 main()
