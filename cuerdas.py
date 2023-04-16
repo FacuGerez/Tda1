@@ -22,7 +22,6 @@ def obtenerDistancias(puntos:tuple)->dict:
 
     return distancias
 
-
 def tiangulaciones(puntos:tuple)->float:
     distanciasTotales = obtenerDistancias(puntos)
     OPT = {}
@@ -42,13 +41,13 @@ def _triangulaciones(distancias:dict,lista:tuple,OPT:dict)->float:
                 OPT[izq] = _triangulaciones(distancias,izq,OPT)
 
             if len(izq) == len(lista):
-            	der = 0
-            	OPT[der] = 0
+                der = 0
+                OPT[der] = 0
             else:
-	            der = ([lista[i]]+list(lista[j+1:])+list(lista[0:i]))
-	            der = tuple(der)
-	            if OPT.get(der) is None:
-	                OPT[der] = _triangulaciones(distancias,der,OPT)
+                der = ([lista[i]]+list(lista[j+1:])+list(lista[0:i]))
+                der = tuple(der)
+                if OPT.get(der) is None:
+                    OPT[der] = _triangulaciones(distancias,der,OPT)
 
             if OPT.get(lista) is None:
 
@@ -60,3 +59,46 @@ def _triangulaciones(distancias:dict,lista:tuple,OPT:dict)->float:
 
                     OPT[lista] = OPT[izq] + OPT[der]
     return OPT[lista]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+def tiangulaciones(puntos:tuple)->float:
+    #distanciasTotales = obtenerDistancias(puntos)    distanciasTotales,
+    OPT = {}
+    for i in range(puntos):
+        OPT[i] = {}
+    _triangulaciones(puntos,OPT)
+    return OPT[0][len(puntos)-1]
+
+
+def _triangulaciones(lista:tuple,OPT:dict):
+
+    for i in range(len(lista)-1,0,-1):
+
+        for j in range(i+1,len(lista)):
+            distanciaIJ = math.sqrt((lista[i].x-lista[j].x)**2+(lista[i].y-lista[j].y)**2)
+
+            if i+1 == j or i-1 == j:
+                OPT[i][j] = distanciaIJ
+            else:
+                for k in range(i+1,j):
+                    OPT[i][j] = min(OPT[i].get(j,0),distanciaIJ + OPT[i][k] + OPT[k][j])
+
+"""
