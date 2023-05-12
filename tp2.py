@@ -7,7 +7,7 @@ def abrirArchivos(nombreArchivo:str):
 		with open(nombreArchivo) as puntos:
 			for punto in puntos:
 				x , y = punto.rstrip("\n").replace(",",".").split(" ")
-				arrayDePuntos.append(float(x),float(y))
+				arrayDePuntos.append((float(x),float(y)))
 		return arrayDePuntos
 	except:
 		raise Exception(f"No se encontro el archivo {nombreArchivo}")
@@ -30,4 +30,4 @@ def main():
 	print(resultado)
 	print()
 
-	
+main()

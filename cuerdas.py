@@ -2,7 +2,7 @@ import math
 
 def triangulaciones(lista:list)->float:
     OPT = {}
-    for i in range(puntos):
+    for i in range(len(lista)):
         OPT[i] = {}
 
     for i in range(len(lista)-1,-1,-1):
@@ -14,6 +14,6 @@ def triangulaciones(lista:list)->float:
                 OPT[i][j] = distanciaIJ
             else:
                 for k in range(i+1,j):
-                    OPT[i][j] = min(OPT[i].get(j,0),distanciaIJ + OPT[i][k] + OPT[k][j])
+                    OPT[i][j] = min(OPT[i].get(j,float("inf")),distanciaIJ + OPT[i][k] + OPT[k][j])
 
-    return OPT[0][len(puntos)-1]
+    return OPT[0][len(lista)-1]
